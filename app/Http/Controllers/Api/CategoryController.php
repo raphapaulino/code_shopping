@@ -50,9 +50,14 @@ class CategoryController extends Controller
      * @param  \CodeShopping\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        //
+        $category->fill($request->all());
+        $category->save();
+
+        return $category;
+
+        // return response([], 204);
     }
 
     /**
@@ -63,6 +68,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return response([], 204);
     }
 }
