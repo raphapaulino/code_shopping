@@ -27,7 +27,7 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $category = Category::create($request->all() + ['slug' => 'teste-2']);
+        $category = Category::create($request->all());
         $category->refresh();
         return $category;
     }
