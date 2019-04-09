@@ -4,6 +4,7 @@ namespace CodeShopping\Http\Controllers\Api;
 
 use CodeShopping\Models\Category;
 use Illuminate\Http\Request;
+use CodeShopping\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
