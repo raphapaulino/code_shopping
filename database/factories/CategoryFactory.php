@@ -8,7 +8,7 @@ $factory->define(CodeShopping\Models\Category::class, function (Faker $faker) {
 
     return [
         'name' => $words,
-        'slug' => str_slug($words),
+        // 'slug' => str_slug($words),
         'active' => $faker->boolean(50)
     ];
 });

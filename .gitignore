@@ -13,3 +13,5 @@ yarn-error.log
 .env
 .phpunit.result.cache
 /docs/*
+_ide_helper.php
+_ide_helper_models.php

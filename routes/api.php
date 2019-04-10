@@ -22,3 +22,4 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function () {
     Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
 
 });
+
