@@ -17,16 +17,14 @@ class ProductInputController extends Controller
         return ProductInputResource::collection($inputs);
     }
 
-    public function store(ProductInputRequest $request, Product $product)
+    public function store(ProductInputRequest $request)
     {
-        $productInput = new ProductInput;
-        $productInput->amount = $request->amount;
-        $productInput->product_id = $product->id;
-        $productInput->save();
-
-        $product->stock += $productInput->amount;
-        $product->save();
-
-        return response()->json([], 201);
+        $input = ProductInput::create($request->all());
+        return new ProductInputResource($input);
+    }    
+    
+    public function show(ProductInput $input)
+    {
+        return new ProductInputResource($input);
     }
 }

@@ -24,7 +24,8 @@ class ProductInputRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required'
+            'amount' => 'required|integer|min:1',
+            'product_id' => 'required|exists:products,id'
         ];
     }
 }
