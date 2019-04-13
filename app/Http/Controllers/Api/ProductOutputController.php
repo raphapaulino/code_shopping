@@ -28,7 +28,8 @@ class ProductOutputController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $output = ProductOutput::create($request->all());
+        return new ProductOutputResource($output);
     }
 
     /**
