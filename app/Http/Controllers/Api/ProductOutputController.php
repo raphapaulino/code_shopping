@@ -6,6 +6,7 @@ use CodeShopping\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use CodeShopping\Models\ProductOutput;
 use CodeShopping\Http\Resources\ProductOutputResource;
+use CodeShopping\Http\Requests\ProductOutputRequest;
 
 class ProductOutputController extends Controller
 {
@@ -26,7 +27,7 @@ class ProductOutputController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductOutputRequest $request)
     {
         $output = ProductOutput::create($request->all());
         return new ProductOutputResource($output);
