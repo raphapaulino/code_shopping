@@ -43,8 +43,9 @@ class ProductCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product, Category $category)
     {
-        //
+        $product->categories()->detach($category->id);
+        return response()->json([], 204);
     }
 }
