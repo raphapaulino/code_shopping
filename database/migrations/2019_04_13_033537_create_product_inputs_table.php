@@ -15,7 +15,7 @@ class CreateProductInputsTable extends Migration
     {
         Schema::create('product_inputs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('amount')->nullable();
+            $table->integer('amount')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->timestamps();
 
