@@ -4,6 +4,7 @@ namespace CodeShopping\Http\Controllers\Api;
 
 use CodeShopping\Models\ProductPhoto;
 use Illuminate\Http\Request;
+use CodeShopping\Http\Controllers\Controller;
 
 class ProductPhotoController extends Controller
 {
