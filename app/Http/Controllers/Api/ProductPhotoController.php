@@ -5,6 +5,7 @@ namespace CodeShopping\Http\Controllers\Api;
 use CodeShopping\Models\ProductPhoto;
 use Illuminate\Http\Request;
 use CodeShopping\Http\Controllers\Controller;
+use CodeShopping\Models\Product;
 
 class ProductPhotoController extends Controller
 {
@@ -13,19 +14,9 @@ class ProductPhotoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Product $product)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $product->photos;
     }
 
     /**
@@ -42,12 +33,15 @@ class ProductPhotoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \CodeShopping\Models\ProductPhoto  $productPhoto
+     * @param  \CodeShopping\Models\ProductPhoto  $photo
      * @return \Illuminate\Http\Response
      */
-    public function show(ProductPhoto $productPhoto)
+    public function show(Product $product, ProductPhoto $photo)
     {
-        //
+        if ($photo->product_id != $product->id) {
+            abort(404, 'Product Error!');
+        }
+        return $photo;
     }
 
     /**
