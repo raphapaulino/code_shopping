@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Models\Product;
 use CodeShopping\Http\Resources\ProductPhotoResource;
+use CodeShopping\Http\Resources\ProductPhotoCollection;
 
 class ProductPhotoController extends Controller
 {
@@ -17,7 +18,8 @@ class ProductPhotoController extends Controller
      */
     public function index(Product $product)
     {
-        return ProductPhotoResource::collection($product->photos);
+        // return ProductPhotoResource::collection($product->photos);
+        return new ProductPhotoCollection($product->photos, $product);
     }
 
     /**
@@ -28,7 +30,8 @@ class ProductPhotoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $path = 
+        // return response()->download();
     }
 
     /**
@@ -42,7 +45,7 @@ class ProductPhotoController extends Controller
         if ($photo->product_id != $product->id) {
             abort(404, 'Product Error!');
         }
-        return $photo;
+        return new ProductPhotoResource($photo);
     }
 
     /**
