@@ -40,13 +40,13 @@ class ProductPhoto extends Model
         }
     }
 
-    private static function createPhotosModels(int $productId, array $files)
+    private static function createPhotosModels(int $productId, array $files): array
     {
         $photos = [];
         /** @var UploadedFile $file */
         foreach ($files as $file) {
             # code...
-            $photos[ = self::create([
+            $photos[] = self::create([
                 'file_name' => $file->hashName(),
                 'product_id' => $productId
             ]);
