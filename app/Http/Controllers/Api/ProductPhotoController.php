@@ -18,7 +18,6 @@ class ProductPhotoController extends Controller
      */
     public function index(Product $product)
     {
-        // return ProductPhotoResource::collection($product->photos);
         return new ProductPhotoCollection($product->photos, $product);
     }
 

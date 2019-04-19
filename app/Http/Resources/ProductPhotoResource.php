@@ -27,7 +27,6 @@ class ProductPhotoResource extends JsonResource
             'photo_url' => $this->photo_url,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            // 'product' => new ProductResource($this->product),
         ];
 
         if (!$this->isCollection) {
@@ -35,13 +34,5 @@ class ProductPhotoResource extends JsonResource
         }
 
         return $data;
-
-        // return [
-        //     'id' => $this->id,
-        //     'photo_url' => $this->photo_url,
-        //     'crated_at' => $this->crated_at,
-        //     'updated_at' => $this->updated_at,
-        //     'product' => new ProductResource($this->product),
-        // ];
     }
 }
