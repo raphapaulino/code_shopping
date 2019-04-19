@@ -27,10 +27,9 @@ class ProductPhotoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Product $product)
     {
-        // $path = 
-        // return response()->download();
+        return ProductPhoto::createWithPhotosFiles($product->id, $request->photos);
     }
 
     /**
