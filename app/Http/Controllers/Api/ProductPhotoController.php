@@ -8,6 +8,7 @@ use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Models\Product;
 use CodeShopping\Http\Resources\ProductPhotoResource;
 use CodeShopping\Http\Resources\ProductPhotoCollection;
+use CodeShopping\Http\Requests\ProductPhotoRequest;
 
 class ProductPhotoController extends Controller
 {
@@ -27,7 +28,7 @@ class ProductPhotoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Product $product)
+    public function store(ProductPhotoRequest $request, Product $product)
     {
         return ProductPhoto::createWithPhotosFiles($product->id, $request->photos);
     }
@@ -44,17 +45,6 @@ class ProductPhotoController extends Controller
             abort(404, 'Product Error!');
         }
         return new ProductPhotoResource($photo);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \CodeShopping\Models\ProductPhoto  $productPhoto
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ProductPhoto $productPhoto)
-    {
-        //
     }
 
     /**
