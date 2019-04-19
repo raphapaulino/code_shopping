@@ -55,9 +55,18 @@ class ProductPhotoController extends Controller
      * @param  \CodeShopping\Models\ProductPhoto  $productPhoto
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProductPhoto $productPhoto)
+    // public function update(ProductPhotoRequest $request, ProductPhoto $productPhoto)
+    // public function update(ProductPhotoRequest $request, Product $product, ProductPhoto $productPhoto)
+    public function update(Product $product, ProductPhoto $productPhoto)
     {
-        //
+        dd([
+            // $request->all(),
+            // $product,
+            $productPhoto
+        ]);
+
+        $photos = ProductPhoto::updateWithPhotosFiles($product->id, $request->photos);
+        // return response()->json(new ProductPhotoCollection($photos, $product), 201);
     }
 
     /**

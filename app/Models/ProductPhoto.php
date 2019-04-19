@@ -46,6 +46,40 @@ class ProductPhoto extends Model
         }
     }
 
+    public static function updateWithPhotosFiles(int $productId, array $files): Collection
+    {
+        /** desabilitar o commit padrão do MySql (autocommit) */
+        try {
+
+            // encontrar a foto
+            dd([$files[0], request()->all()]);
+
+            $photo = self::findPhoto($files[0]->id);
+
+            dd([$photo, $request->all()]);
+
+            self::uploadFiles($productId, $files);
+            \DB::beginTransaction();
+            $photos = self::createPhotosModels($productId, $files);
+            // throw new \Exception('lancando exceção');
+            \DB::commit();
+            // 2 deram certo e o 3 nao
+            return new Collection($photos);
+
+        } catch (\Exception $e) {
+
+            self::deleteFiles($productId, $files);
+            \DB::rollBack();
+            throw $e;
+
+        }
+    }
+
+    private static function findPhoto(int $photoId)
+    {
+        return self::findOrFail($photoId);
+    }
+
     private static function deleteFiles(int $productId, array $files) 
     {
         /** @var UploadedFile $file */
@@ -68,6 +102,20 @@ class ProductPhoto extends Model
     }
 
     private static function createPhotosModels(int $productId, array $files): array
+    {
+        $photos = [];
+        /** @var UploadedFile $file */
+        foreach ($files as $file) {
+            # code...
+            $photos[] = self::create([
+                'file_name' => $file->hashName(),
+                'product_id' => $productId
+            ]);
+        }
+        return $photos;
+    }
+
+    private static function updatePhotosModels(int $productId, array $files): array
     {
         $photos = [];
         /** @var UploadedFile $file */
