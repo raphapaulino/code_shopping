@@ -42,7 +42,7 @@ class ProductPhotoController extends Controller
      */
     public function show(Product $product, ProductPhoto $photo)
     {
-        $this->assertProductPhoto($photo, $product);
+        $this->assertProductPhoto($product, $photo);
         return new ProductPhotoResource($photo);
     }
 
@@ -57,16 +57,9 @@ class ProductPhotoController extends Controller
     // public function update(ProductPhotoRequest $request, Product $product, ProductPhoto $productPhoto)
     public function update(Request $request, Product $product, ProductPhoto $photo)
     {
-        $this->assertProductPhoto($photo, $product);
+        $this->assertProductPhoto($product, $photo);
         $photo = $photo->updateWithPhoto($request->photo);
         return new ProductPhotoResource($photo);
-    }
-
-    private function assertProductPhoto(ProductPhoto $photo, Product $product)
-    {
-        if ($photo->product_id != $product->id) {
-            abort(404, 'Product Error!');
-        }
     }
 
     /**
@@ -75,8 +68,17 @@ class ProductPhotoController extends Controller
      * @param  \CodeShopping\Models\ProductPhoto  $productPhoto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductPhoto $productPhoto)
+    public function destroy(Product $product, ProductPhoto $photo)
     {
-        //
+        $this->assertProductPhoto($product, $photo);
+        $photo->deleteWithPhoto();
+        return response()->json([], 204);
+    }
+
+    private function assertProductPhoto(Product $product, ProductPhoto $photo)
+    {
+        if ($photo->product_id != $product->id) {
+            abort(404, 'Product Error!');
+        }
     }
 }
