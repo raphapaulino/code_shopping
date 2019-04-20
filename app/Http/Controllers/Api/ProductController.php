@@ -2,10 +2,12 @@
 
 namespace CodeShopping\Http\Controllers\Api;
 
+use CodeShopping\Http\Controllers\Controller;
+use CodeShopping\Http\Requests\ProductRequest;
+use CodeShopping\Http\Resources\ProductResource;
 use CodeShopping\Models\Product;
 use Illuminate\Http\Request;
-use CodeShopping\Http\Controllers\Controller;
-use CodeShopping\Http\Resources\ProductResource;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductController extends Controller
 {
@@ -14,9 +16,11 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate(5);
+        $query = Product::query();
+        $query = $this->onlyTrashedIfRequested($request, $query);
+        $products = $query->paginate(10);
         return ProductResource::collection($products);
     }
 
@@ -26,7 +30,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         $product = Product::create($request->all());
         $product->refresh();
@@ -70,5 +74,13 @@ class ProductController extends Controller
         $product->delete();
         
         return response()->json([], 204);
+    }
+
+    private function onlyTrashedIfRequested(Request $request, Builder $query)
+    {
+        if ($request->get('trashed') == 1) {
+            $query = $query->onlyTrashed();
+        }
+        return $query;
     }
 }
