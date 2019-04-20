@@ -42,9 +42,7 @@ class ProductPhotoController extends Controller
      */
     public function show(Product $product, ProductPhoto $photo)
     {
-        if ($photo->product_id != $product->id) {
-            abort(404, 'Product Error!');
-        }
+        $this->assertProductPhoto($photo, $product);
         return new ProductPhotoResource($photo);
     }
 
@@ -57,16 +55,18 @@ class ProductPhotoController extends Controller
      */
     // public function update(ProductPhotoRequest $request, ProductPhoto $productPhoto)
     // public function update(ProductPhotoRequest $request, Product $product, ProductPhoto $productPhoto)
-    public function update(Product $product, ProductPhoto $productPhoto)
+    public function update(Request $request, Product $product, ProductPhoto $photo)
     {
-        dd([
-            // $request->all(),
-            // $product,
-            $productPhoto
-        ]);
+        $this->assertProductPhoto($photo, $product);
+        $photo = $photo->updateWithPhoto($request->photo);
+        return new ProductPhotoResource($photo);
+    }
 
-        $photos = ProductPhoto::updateWithPhotosFiles($product->id, $request->photos);
-        // return response()->json(new ProductPhotoCollection($photos, $product), 201);
+    private function assertProductPhoto(ProductPhoto $photo, Product $product)
+    {
+        if ($photo->product_id != $product->id) {
+            abort(404, 'Product Error!');
+        }
     }
 
     /**

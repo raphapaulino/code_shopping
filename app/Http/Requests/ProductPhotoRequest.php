@@ -27,9 +27,22 @@ class ProductPhotoRequest extends FormRequest
          * Quando for necessário o teste de uma coleção, é preciso validar 
          * em duas linhas conforme abaixo.
          */
+        // return [
+        //     'photos' => 'required|array',
+        //     'photos.*' => 'required|image|max:' . (3 * 1024)
+        // ];
+        return !$this->route('photo') ? $this->rulesCreate() : $this->rulesUpdate();
+    }
+
+    private function rulesCreate()
+    {
         return [
-            'photos' => 'required|array',
-            'photos.*' => 'required|image|max:' . (3 * 1024)
+            'photos' => 'required|image|max:' . (3 * 1024)
         ];
+    }
+
+    private function rulesUpdate()
+    {
+
     }
 }

@@ -46,38 +46,47 @@ class ProductPhoto extends Model
         }
     }
 
-    public static function updateWithPhotosFiles(int $productId, array $files): Collection
+    public function updateWithPhoto(UploadedFile $file): ProductPhoto
     {
         /** desabilitar o commit padrão do MySql (autocommit) */
         try {
 
-            // encontrar a foto
-            dd([$files[0], request()->all()]);
-
-            $photo = self::findPhoto($files[0]->id);
-
-            dd([$photo, $request->all()]);
-
-            self::uploadFiles($productId, $files);
+            /**
+             * @TODO Pegar o caminho da imagem atual, jogar para um diretório temporário,
+             * para o caso onde ocorra algum problema com o banco de dados após o beginTransaction()
+             * ser executado, o registro não ficar sem o arquivo "físico" no servidor. Então
+             * o copiamos de volta.
+             * 
+             * Usar: \File::copy() / sys_get_temp_dir()
+             */
+            
+            // do the upload
+            self::uploadFiles($this->product_id, [$file]);
             \DB::beginTransaction();
-            $photos = self::createPhotosModels($productId, $files);
-            // throw new \Exception('lancando exceção');
+            // remove old file
+            $this->deletePhoto($this->file_name);
+            // update old file name
+            $this->file_name = $file->hashName();
+            // \File::copy() ...
+            $this->save();
             \DB::commit();
             // 2 deram certo e o 3 nao
-            return new Collection($photos);
+            return $this;
 
         } catch (\Exception $e) {
 
-            self::deleteFiles($productId, $files);
+            // remove old file
+            self::deleteFiles($this->product_id, [$file]);
             \DB::rollBack();
             throw $e;
 
         }
     }
 
-    private static function findPhoto(int $photoId)
+    private function deletePhoto($fileName)
     {
-        return self::findOrFail($photoId);
+        $dir = self::photosDir($this->product_id);
+        \Storage::disk('public')->delete("{$dir}/{$fileName}");
     }
 
     private static function deleteFiles(int $productId, array $files) 
