@@ -23,11 +23,11 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function () {
     Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
     Route::resource('products.categories', 'ProductCategoryController', ['only' => ['index', 'store', 'destroy']]);
     Route::resource('products.photos', 'ProductPhotoController', ['except' => ['create', 'edit']]);
-    
     Route::post('products/{product}/photos/{photo}', 'ProductPhotoController@update')->name('products.photos.update');
-    
     Route::resource('inputs', 'ProductInputController', ['only' => ['index', 'store', 'show']]);
     Route::resource('outputs', 'ProductOutputController', ['only' => ['index', 'store', 'show']]);
 
+    // users
+    Route::resource('users', 'UserController', ['except' => ['create', 'edit']]);
 });
 
