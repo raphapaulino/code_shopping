@@ -6,11 +6,14 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use CodeShopping\Models\Category;
 use CodeShopping\Models\Product;
+use CodeShopping\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
+use CodeShopping\Common\OnlyTrashed;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    use OnlyTrashed;
+    
     /**
      * This namespace is applied to your controller routes.
      *
@@ -38,18 +41,18 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::bind('product', function ($value) {
             $query = Product::query();
-            $query = $this->onlyTrashedIfRequested($query);
+            $request = app(Request::class);
+            $query = $this->onlyTrashedIfRequested($request, $query);
             $collection = $query->whereId($value)->orWhere('slug', $value)->get();
             return $collection->first();
         });
-    }
 
-    private function onlyTrashedIfRequested(Builder $query)
-    {
-        if (\Request::get('trashed') == 1) {
-            $query = $query->onlyTrashed();
-        }
-        return $query;
+        Route::bind('user', function ($value) {
+            $query = User::query();
+            $request = app(Request::class);
+            $query = $this->onlyTrashedIfRequested($request, $query);
+            return $query->find($value); // null
+        });
     }
 
     /**

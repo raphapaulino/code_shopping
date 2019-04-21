@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Resources\UserResource;
 use CodeShopping\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 use CodeShopping\Http\Requests\UserRequest;
+use CodeShopping\Common\OnlyTrashed;
 
 class UserController extends Controller
 {
+    use OnlyTrashed;
+
     /**
      * Display a listing of the resource.
      *
@@ -67,22 +69,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return response()->json([], 204);
     }
 
     public function restore(User $user)
     {
         $user->restore();
         return response()->json([], 204);
-    }
-
-    private function onlyTrashedIfRequested(Request $request, Builder $query)
-    {
-        if ($request->get('trashed') == 1) {
-            $query = $query->onlyTrashed();
-        }
-        return $query;
     }
 }
