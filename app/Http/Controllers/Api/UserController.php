@@ -7,6 +7,7 @@ use CodeShopping\Http\Controllers\Controller;
 use CodeShopping\Http\Resources\UserResource;
 use CodeShopping\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use CodeShopping\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -29,9 +30,10 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $user = User::createCustom($request->all());
+        return new UserResource($user);
     }
 
     /**
