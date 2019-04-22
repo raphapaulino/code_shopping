@@ -42,7 +42,7 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'jwt', // 'driver' => 'token' <- default config
             'provider' => 'users',
         ],
     ],
