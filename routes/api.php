@@ -19,8 +19,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'Api', 'as' => 'api.'], function () {
     Route::name('login')->post('login', 'AuthController@login');
+    Route::name('refresh')->post('refresh', 'AuthController@refresh'); // token pode estar invalido mas o tempo de expiração não
 
     Route::group(['middleware' => ['auth:api']], function () {
+        Route::name('logout')->post('logout', 'AuthController@logout');
+        Route::name('me')->get('me', 'AuthController@me');
+
         Route::patch('products/{product}/restore', 'ProductController@restore');
         Route::resource('products', 'ProductController', ['except' => ['create', 'edit']]);
         Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
