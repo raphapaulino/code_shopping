@@ -18,7 +18,7 @@ class CategoryController extends Controller
     public function index()
     {
         // dd('dentro do controller');
-        return CategoryResource::collection(Category::all());
+        return CategoryResource::collection(Category::paginate());
     }
 
     /**
