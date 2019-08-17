@@ -9,12 +9,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
+  baseUrl = 'http://localhost:8000/api';
   credentials = {
     email: 'admin@user.com',
     password: 'secret'
   }
+  showMessageError = false;
 
-  constructor(private http: HttpClient, private router: Router) { // injeção de dependencia automática
+  constructor(private httpClient: HttpClient, private router: Router) { // injeção de dependencia automática
 
   }
 
@@ -23,20 +25,21 @@ export class LoginComponent implements OnInit {
   }
 
   submit() {
-    // alert('submeteu');
-    // envie uma requisição ajax com as credenciais para a API
-    // generics
-    this.http.post<any>('http://localhost:8000/api/login', this.credentials)
+    // envie uma requisição ajax com as credenciais para a API, generics
+    this.httpClient.post<any>(`${this.baseUrl}/login`, this.credentials)
       	.subscribe((data) => {
-			// console.log(data)
-			this.router.navigate(['categories/list']);
-			const token = data.token;
-			// this.http.get('http://localhost:8000/api/categories', {
-			// 	headers: {
-			// 		'Authorization': `Bearer ${token}`
-			// 	}
-			// }).subscribe(data => console.log(data)); // executado somente no momento da resposta
-      	});
+          const token = data.token;
+          window.localStorage.setItem('token', token);
+          this.router.navigate(['categories/list']);
+          // this.http.get('http://localhost:8000/api/categories', {
+          // 	headers: {
+          // 		'Authorization': `Bearer ${token}`
+          // 	}
+          // }).subscribe(data => console.log(data)); // executado somente no momento da resposta
+      	}, responseError => {
+          console.log(responseError)
+          this.showMessageError = true;
+        });
     return false; // evita que o form seja submetido
   }
 

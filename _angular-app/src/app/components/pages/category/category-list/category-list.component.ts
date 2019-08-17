@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/internal/Observable';
+
 
 @Component({
   selector: 'app-category-list',
@@ -7,9 +10,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CategoryListComponent implements OnInit {
 
-  constructor() { }
+  public baseUrl = 'http://localhost:8000/api';
+
+  public category = {
+    name: '',
+    active: true
+  }
+
+  constructor(private httpClient: HttpClient) { 
+
+  }
 
   ngOnInit() {
+    this.getCategory();
+  }
+
+  // getCategory(): Observable<{ data: Array<any>}> {
+  getCategory() {
+
+    const token = window.localStorage.getItem('token');
+    this.httpClient
+      .get(`${this.baseUrl}/categories`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .subscribe(response => {
+        console.log(response.data);
+      });
+
   }
 
 }

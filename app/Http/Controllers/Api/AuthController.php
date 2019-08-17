@@ -19,14 +19,9 @@ class AuthController extends Controller
 
         $token = \JWTAuth::attempt($credentials);
 
-        return $token ?
-            ['token' => $token] :
-            response()->json(
-                [
-                    'error' => \Lang::get('auth.failed')
-                ], 
-                400
-            ); // 400 -> Bad Request
+        return $token 
+            ? ['token' => $token] 
+            : response()->json(['error' => \Lang::get('auth.failed')], 400); // 400 -> Bad Request
     }
 
     public function logout()

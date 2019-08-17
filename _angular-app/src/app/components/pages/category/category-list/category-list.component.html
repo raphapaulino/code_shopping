@@ -1,3 +1,58 @@
-<p>
-  category-list works!
-</p>
+<div class="row">
+  <div class="col-lg-12">
+    <h1>Listagem de Categorias</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td colspan="5">
+                    <!-- <button type="button" class="btn btn-primary" (click)="dashboardInsertService.showModalInsert()"> -->
+                    <button type="button" class="btn btn-primary">
+                        Nova Categoria
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <th style="width: 5%">ID</th>
+                <th style="width: 40%">Nome</th>
+                <th style="width: 15%">E-mail</th>
+                <th style="width: 10%">Telefone</th>
+                <th style="width: 15%">Ativo?</th>
+                <th style="width: 15%">Criado Em</th>
+                <th style="width: 25%">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- <tr *ngFor="let person of people | paginate: {itemsPerPage: 5, currentPage: pagination.page, totalItems: pagination.totalItems}"> -->
+            <tr *ngFor="let category of categories">
+                <td>{{ category.id }}</td>
+                <td>{{ category.name }}</td>
+                <td>
+                    <!-- <i class="fas" [ngClass]="{'fa-check': person.is_active, 'fa-times': !person.is_active}"></i> -->
+                    <i class="fas fa-check"></i>
+                </td>
+                <td>{{ category.created_at.date | date: 'dd/MM/yyyy'}}</td>
+                <td>
+                    <!-- Editar | Excluir -->
+                    <!-- <a href="javascript:void(0)" (click)="dashboardEditService.showModalEdit(person.id)"> -->
+                        <!-- <i class="fas fa-edit"></i> -->
+                    <!-- </a> |  -->
+                    <a href="javascript:void(0)">
+                        <i class="fas fa-edit"></i>
+                    </a> | 
+                    <!-- <a href="javascript:void(0)" (click)="dashboardDeleteService.showModalDelete(person.id)"> -->
+                        <!-- <i class="fas fa-trash-alt"></i> -->
+                    <!-- </a> -->
+                    <a href="javascript:void(0)">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- <pagination-controls (pageChange)="pageChanged($event)" -->
+        <!-- previousLabel="Anterior" -->
+        <!-- nextLabel="Próximo"></pagination-controls> -->
+  </div>
+</div>

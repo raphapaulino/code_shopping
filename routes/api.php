@@ -19,23 +19,36 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'Api', 'as' => 'api.'], function () {
     Route::name('login')->post('login', 'AuthController@login');
+    // Route::name('login')->post('login', function (Request $request) {
+    //     dd($request->all());
+    // });
     Route::name('refresh')->post('refresh', 'AuthController@refresh'); // token pode estar invalido mas o tempo de expiração não
 
-    Route::group(['middleware' => ['auth:api', 'jwt.refresh']], function () {
-        Route::name('logout')->post('logout', 'AuthController@logout');
-        Route::name('me')->get('me', 'AuthController@me');
+    Route::name('logout')->post('logout', 'AuthController@logout');
 
-        Route::patch('products/{product}/restore', 'ProductController@restore');
-        Route::resource('products', 'ProductController', ['except' => ['create', 'edit']]);
-        Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
-        Route::resource('products.categories', 'ProductCategoryController', ['only' => ['index', 'store', 'destroy']]);
-        Route::resource('products.photos', 'ProductPhotoController', ['except' => ['create', 'edit']]);
-        Route::post('products/{product}/photos/{photo}', 'ProductPhotoController@update')->name('products.photos.update');
-        Route::resource('inputs', 'ProductInputController', ['only' => ['index', 'store', 'show']]);
-        Route::resource('outputs', 'ProductOutputController', ['only' => ['index', 'store', 'show']]);
+    Route::group(
+        [
+            'middleware' => [
+                'auth:api'//, 'cors', 'jwt.refresh'
+            ]
+        ], function () {
+                
+            Route::name('me')->get('me', 'AuthController@me');
 
-        // users
-        Route::resource('users', 'UserController', ['except' => ['create', 'edit']]);
+            // Products
+            Route::patch('products/{product}/restore', 'ProductController@restore');
+            Route::resource('products', 'ProductController', ['except' => ['create', 'edit']]);
+            Route::resource('products.categories', 'ProductCategoryController', ['only' => ['index', 'store', 'destroy']]);
+            Route::resource('products.photos', 'ProductPhotoController', ['except' => ['create', 'edit']]);
+            Route::post('products/{product}/photos/{photo}', 'ProductPhotoController@update')->name('products.photos.update');
+            Route::resource('inputs', 'ProductInputController', ['only' => ['index', 'store', 'show']]);
+            Route::resource('outputs', 'ProductOutputController', ['only' => ['index', 'store', 'show']]);
+
+            // Categories
+            Route::resource('categories', 'CategoryController', ['except' => ['create', 'edit']]);
+
+            // users
+            Route::resource('users', 'UserController', ['except' => ['create', 'edit']]);
     });
 });
 
