@@ -7,17 +7,17 @@
             <tr>
                 <td colspan="5">
                     <!-- <button type="button" class="btn btn-primary" (click)="dashboardInsertService.showModalInsert()"> -->
-                    <button type="button" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" (click)="showModal()">
                         Nova Categoria
                     </button>
                 </td>
             </tr>
             <tr>
                 <th style="width: 5%">ID</th>
-                <th style="width: 40%">Nome</th>
+                <th style="width: 50%">Nome</th>
                 <th style="width: 15%">Ativo?</th>
                 <th style="width: 15%">Criado Em</th>
-                <th style="width: 25%">Ações</th>
+                <th style="width: 15%">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -26,8 +26,8 @@
                 <td>{{ category.id }}</td>
                 <td>{{ category.name }}</td>
                 <td>
-                    <!-- <i class="fas" [ngClass]="{'fa-check': person.is_active, 'fa-times': !person.is_active}"></i> -->
-                    <i class="fas fa-check"></i>
+                    <i class="fas" [ngClass]="{'fa-check': category.active, 'fa-times': !category.active}"></i>
+                    <!-- <i class="fas fa-check"></i> -->
                 </td>
                 <td>{{ category.created_at.date | date: 'dd/MM/yyyy'}}</td>
                 <td>
@@ -54,3 +54,26 @@
         <!-- nextLabel="Próximo"></pagination-controls> -->
   </div>
 </div>
+
+<form (submit)="submit()">
+    <modal (onHide)="hideModal($event)" (onSuccess)="onInsertSuccess($event)">
+        <h1 modal-title>Nova Categoria</h1>
+        <div modal-body>
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Informe o nome" required
+                    [(ngModel)]="category.name">
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="is_active" name="is_active" required
+                    [(ngModel)]="category.active">
+                <label for="is_active">Ativo?</label>
+            </div>
+        </div>
+        <div modal-footer>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button type="submit" class="btn btn-primary">Incluir</button>
+        </div>
+    </modal>
+</form>
+<!-- <category-new-modal></category-new-modal> -->

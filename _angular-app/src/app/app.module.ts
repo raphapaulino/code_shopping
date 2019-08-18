@@ -8,6 +8,8 @@ import { CategoryListComponent } from './components/pages/category/category-list
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { ModalComponent } from './components/bootstrap/modal/modal.component';
+import { CategoryNewModalComponent } from './components/pages/category/category-new-modal/category-new-modal.component';
 
 const routes: Routes = [
 	{
@@ -28,7 +30,9 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    ModalComponent,
+    CategoryNewModalComponent
   ],
   imports: [
     BrowserModule,
