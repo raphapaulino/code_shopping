@@ -7,8 +7,7 @@
             <tr>
                 <td colspan="5">
                     <!-- <button type="button" class="btn btn-primary" (click)="dashboardInsertService.showModalInsert()"> -->
-                    <!-- <button type="button" class="btn btn-primary" (click)="showModalInsert()"> -->
-                    <button type="button" class="btn btn-primary" (click)="showNotify()">
+                    <button type="button" class="btn btn-primary" (click)="categoryInsertService.showModalInsert()">
                         Nova Categoria
                     </button> 
                 </td>
@@ -23,7 +22,8 @@
         </thead>
         <tbody>
             <!-- <tr *ngFor="let person of people | paginate: {itemsPerPage: 5, currentPage: pagination.page, totalItems: pagination.totalItems}"> -->
-            <tr *ngFor="let category of categories">
+            <tr *ngFor="let category of categories | paginate: {itemsPerPage: pagination.itemsPerPage, currentPage: pagination.page, totalItems: pagination.totalItems}">
+            <!-- <tr *ngFor="let category of categories"> -->
                 <td>{{ category.id }}</td>
                 <td>{{ category.name }}</td>
                 <td>
@@ -36,13 +36,13 @@
                     <!-- <a href="javascript:void(0)" (click)="dashboardEditService.showModalEdit(person.id)"> -->
                         <!-- <i class="fas fa-edit"></i> -->
                     <!-- </a> |  -->
-                    <a href="javascript:void(0)" (click)="showModalEdit(category.id)">
+                    <a href="javascript:void(0)" (click)="categoryEditService.showModalEdit(category.id)">
                         <i class="fas fa-edit"></i>
                     </a> | 
                     <!-- <a href="javascript:void(0)" (click)="dashboardDeleteService.showModalDelete(person.id)"> -->
                         <!-- <i class="fas fa-trash-alt"></i> -->
                     <!-- </a> -->
-                    <a href="javascript:void(0)" (click)="showModalDelete(category.id)">
+                    <a href="javascript:void(0)" (click)="categoryDeleteService.showModalDelete(category.id)">
                         <i class="fas fa-trash-alt"></i>
                     </a>
                 </td>
@@ -50,23 +50,23 @@
         </tbody>
     </table>
 
-    <!-- <pagination-controls (pageChange)="pageChanged($event)" -->
-        <!-- previousLabel="Anterior" -->
-        <!-- nextLabel="Próximo"></pagination-controls> -->
+    <pagination-controls (pageChange)="pageChanged($event)"
+        previousLabel="Anterior"
+        nextLabel="Próximo"></pagination-controls>
   </div>
 </div>
 
 <category-new-modal 
-    (onSuccess)="onInsertSuccess($event)"
-    (onError)="onInsertError($event)"></category-new-modal>
+    (onSuccess)="categoryInsertService.onInsertSuccess($event)"
+    (onError)="categoryInsertService.onInsertError($event)"></category-new-modal>
 <category-edit-modal
     [categoryId]="categoryId"
-    (onSuccess)="onEditSuccess($event)"
-    (onError)="onEditError($event)"></category-edit-modal>
+    (onSuccess)="categoryEditService.onEditSuccess($event)"
+    (onError)="categoryEditService.onEditError($event)"></category-edit-modal>
 <category-delete-modal
     [categoryId]="categoryId"
-    (onSuccess)="onDeleteSuccess($event)"
-    (onError)="onDeleteError($event)"></category-delete-modal>
+    (onSuccess)="categoryDeleteService.onDeleteSuccess($event)"
+    (onError)="categoryDeleteService.onDeleteError($event)"></category-delete-modal>
 
 <!-- <form (submit)="submit()">
     <modal (onHide)="hideModal($event)" (onSuccess)="onInsertSuccess($event)">
