@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 // import { Observable } from 'rxjs/internal/Observable';
 import { Category } from 'src/app/model';
 import { CategoryNewModalComponent } from '../category-new-modal/category-new-modal.component';
+import { CategoryEditModalComponent } from '../category-edit-modal/category-edit-modal.component';
 
 declare const $;
 
@@ -17,7 +18,13 @@ export class CategoryListComponent implements OnInit {
 
     public categories: Array<Category> = [];
 
-    @ViewChild(CategoryNewModalComponent) categoryNewModal: CategoryNewModalComponent;
+    @ViewChild(CategoryNewModalComponent) 
+    categoryNewModal: CategoryNewModalComponent;
+
+    @ViewChild(CategoryEditModalComponent) 
+    categoryEditModal: CategoryEditModalComponent;
+
+    categoryId: number;
 
     constructor(private httpClient: HttpClient) { }
 
@@ -53,4 +60,17 @@ export class CategoryListComponent implements OnInit {
         console.log($event);
     }
 
+    showModalEdit(categoryId: number) {
+        this.categoryId = categoryId;
+        this.categoryEditModal.showModal();
+    }
+
+    onEditSuccess($event: any) {
+        console.log($event);
+        this.getCategories();
+    }
+
+    onEditError($event: HttpErrorResponse) {
+        console.log($event);
+    }
 }

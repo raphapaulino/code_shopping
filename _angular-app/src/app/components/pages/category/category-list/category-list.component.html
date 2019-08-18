@@ -35,7 +35,7 @@
                     <!-- <a href="javascript:void(0)" (click)="dashboardEditService.showModalEdit(person.id)"> -->
                         <!-- <i class="fas fa-edit"></i> -->
                     <!-- </a> |  -->
-                    <a href="javascript:void(0)">
+                    <a href="javascript:void(0)" (click)="showModalEdit(category.id)">
                         <i class="fas fa-edit"></i>
                     </a> | 
                     <!-- <a href="javascript:void(0)" (click)="dashboardDeleteService.showModalDelete(person.id)"> -->
@@ -58,6 +58,10 @@
 <category-new-modal 
     (onSuccess)="onInsertSuccess($event)"
     (onError)="onInsertSuccess($event)"></category-new-modal>
+<category-edit-modal
+    [categoryId]="categoryId"
+    (onSuccess)="onEditSuccess($event)"
+    (onError)="onEditSuccess($event)"></category-edit-modal>
 
 <!-- <form (submit)="submit()">
     <modal (onHide)="hideModal($event)" (onSuccess)="onInsertSuccess($event)">

@@ -14,7 +14,7 @@ export class CategoryNewModalComponent implements OnInit {
 
     public category = {
         name: '',
-        active: false
+        active: true
     }
     
     @ViewChild(ModalComponent) modal: ModalComponent;
