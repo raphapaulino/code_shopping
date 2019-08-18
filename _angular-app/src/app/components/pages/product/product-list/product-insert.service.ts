@@ -23,12 +23,12 @@ export class ProductInsertService {
 
     onInsertSuccess($event: any) {
         console.log($event);
-        this.notifyMessage.success('Categoria cadastrada com sucesso.');
+        this.notifyMessage.success('Produto cadastrado com sucesso.');
         this._productListComponent.getCategories();
     }
 
     onInsertError($event: HttpErrorResponse) {
         console.log($event);
-        this.notifyMessage.error('Erro ao tentar registrar a nova Categoria.');
+        this.notifyMessage.error('Erro ao tentar registrar o novo Produto.');
     }
 }

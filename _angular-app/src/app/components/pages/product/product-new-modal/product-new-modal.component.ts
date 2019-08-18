@@ -13,9 +13,9 @@ export class ProductNewModalComponent implements OnInit {
 
     public product: Product = {
         name: '',
-        active: true,
         description: '',
-        price: 0
+        price: 0, //number html5
+        active: true
     }
     
     @ViewChild(ModalComponent) modal: ModalComponent;
