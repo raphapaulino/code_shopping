@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-// import { Observable } from 'rxjs/internal/Observable';
-import { Category } from 'src/app/model';
 import { CategoryNewModalComponent } from '../category-new-modal/category-new-modal.component';
 import { CategoryEditModalComponent } from '../category-edit-modal/category-edit-modal.component';
 import { CategoryDeleteModalComponent } from '../category-delete-modal/category-delete-modal.component';
+import { CategoryHttpService } from '../../../../services/http/category-http.service';
+import { Category } from 'src/app/model';
+import PNotify from 'pnotify/dist/es/PNotify';
+import PNotifyButtons from 'pnotify/dist/es/PNotifyButtons';
 
 declare const $;
 
@@ -30,7 +32,7 @@ export class CategoryListComponent implements OnInit {
 
     categoryId: number;
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient, public categoryHttp: CategoryHttpService) { }
 
     ngOnInit() {
         this.getCategories();
@@ -38,14 +40,7 @@ export class CategoryListComponent implements OnInit {
 
     // getCategories(): Observable<{ data: Array<Category> }> {
     getCategories() {
-        const token = window.localStorage.getItem('token');
-        this.httpClient
-            .get<{ data: Array<Category> }>
-            (`${this.baseUrl}/categories`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+        this.categoryHttp.list()
             .subscribe(response => {
                 this.categories = response.data;
             });
@@ -90,5 +85,10 @@ export class CategoryListComponent implements OnInit {
 
     onDeleteError($event: HttpErrorResponse) {
         console.log($event);
+    }
+
+    showNotify() {
+        PNotifyButtons;
+        PNotify.alert({text: 'Hello World!', type: 'success'});
     }
 }

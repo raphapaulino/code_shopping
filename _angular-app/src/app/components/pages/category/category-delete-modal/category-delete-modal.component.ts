@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, Input } from '@angular/core';
 import { ModalComponent } from 'src/app/components/bootstrap/modal/modal.component';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
+import { CategoryHttpService } from 'src/app/services/http/category-http.service';
+import { Category } from 'src/app/model';
 
 @Component({
   selector: 'category-delete-modal',
@@ -11,7 +13,7 @@ export class CategoryDeleteModalComponent implements OnInit {
 
     public baseUrl = 'http://localhost:8000/api';
 
-    public category = null;
+    public category: Category = null;
     
     _categoryId: number;
 
@@ -20,7 +22,7 @@ export class CategoryDeleteModalComponent implements OnInit {
     @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
     @Output() onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
     
-    constructor(private httpClient: HttpClient) { }
+    constructor(private categoryHttp: CategoryHttpService) { }
 
     ngOnInit() {
     }
@@ -28,28 +30,16 @@ export class CategoryDeleteModalComponent implements OnInit {
     @Input()
     set categoryId(value) {
         this._categoryId = value;
-        const token = window.localStorage.getItem('token');
         if (this._categoryId) {
-            this.httpClient
-                .get<{ data: any }>
-                (`${this.baseUrl}/categories/${value}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                })
-                .subscribe((response) => this.category = response.data);
+            this.categoryHttp
+                .get(this._categoryId)
+                .subscribe(category => this.category = category);
         }
     }
 
     destroy() {
-        const token = window.localStorage.getItem('token');
-        this.httpClient
-            .delete<{ data: any }>
-            (`${this.baseUrl}/categories/${this._categoryId}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+        this.categoryHttp
+            .destroy(this._categoryId)
             .subscribe((category) => {
                 console.log(category);
                 this.onSuccess.emit(category);
