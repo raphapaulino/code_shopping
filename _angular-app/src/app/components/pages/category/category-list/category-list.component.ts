@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
 import { CategoryNewModalComponent } from '../category-new-modal/category-new-modal.component';
 import { CategoryEditModalComponent } from '../category-edit-modal/category-edit-modal.component';
 import { CategoryDeleteModalComponent } from '../category-delete-modal/category-delete-modal.component';
@@ -17,8 +16,6 @@ import { CategoryDeleteService } from './category-delete.service';
 export class CategoryListComponent implements OnInit {
 
     public categories: Array<Category> = [];
-
-    // page: 1
 
     public pagination = {
         page: 1,
