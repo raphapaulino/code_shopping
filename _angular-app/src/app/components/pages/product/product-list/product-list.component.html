@@ -27,7 +27,7 @@
                 <!-- <tr *ngFor="let product of products"> -->
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
-                    <td>{{ product.price }}</td>
+                    <td>{{ product.price | numberFormatBr }}</td>
                     <td>
                         <i class="fas" [ngClass]="{'fa-check': product.active, 'fa-times': !product.active}"></i>
                         <!-- <i class="fas fa-check"></i> -->
