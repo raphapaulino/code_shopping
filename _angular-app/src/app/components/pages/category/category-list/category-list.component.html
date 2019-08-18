@@ -7,9 +7,9 @@
             <tr>
                 <td colspan="5">
                     <!-- <button type="button" class="btn btn-primary" (click)="dashboardInsertService.showModalInsert()"> -->
-                    <button type="button" class="btn btn-primary" (click)="showModal()">
+                    <button type="button" class="btn btn-primary" (click)="showModalInsert()">
                         Nova Categoria
-                    </button>
+                    </button> 
                 </td>
             </tr>
             <tr>
@@ -55,7 +55,11 @@
   </div>
 </div>
 
-<form (submit)="submit()">
+<category-new-modal 
+    (onSuccess)="onInsertSuccess($event)"
+    (onError)="onInsertSuccess($event)"></category-new-modal>
+
+<!-- <form (submit)="submit()">
     <modal (onHide)="hideModal($event)" (onSuccess)="onInsertSuccess($event)">
         <h1 modal-title>Nova Categoria</h1>
         <div modal-body>
@@ -75,5 +79,5 @@
             <button type="submit" class="btn btn-primary">Incluir</button>
         </div>
     </modal>
-</form>
+</form> -->
 <!-- <category-new-modal></category-new-modal> -->

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 // import { Observable } from 'rxjs/internal/Observable';
 import { Category } from 'src/app/model';
-import { ModalComponent } from 'src/app/components/bootstrap/modal/modal.component';
+import { CategoryNewModalComponent } from '../category-new-modal/category-new-modal.component';
 
 declare const $;
 
@@ -17,15 +17,7 @@ export class CategoryListComponent implements OnInit {
 
     public categories: Array<Category> = [];
 
-    public category = {
-        name: '',
-        active: false
-    }
-
-    @ViewChild(ModalComponent, {static: false})  modal: ModalComponent;
-
-    @Output() onSuccess: EventEmitter<any> = new EventEmitter<any>();
-    @Output() onError: EventEmitter<HttpErrorResponse> = new EventEmitter<HttpErrorResponse>();
+    @ViewChild(CategoryNewModalComponent) categoryNewModal: CategoryNewModalComponent;
 
     constructor(private httpClient: HttpClient) { }
 
@@ -48,34 +40,17 @@ export class CategoryListComponent implements OnInit {
             });
     }
 
-    showModal() {
-        this.modal.show();
-    }
-
-    hideModal($event: Event) {
-        console.log($event);
-    }
-
-    submit() {
-        const token = window.localStorage.getItem('token');
-        this.httpClient
-            .post<{ data: Category }>
-            (`${this.baseUrl}/categories`, this.category, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).subscribe((category) => {
-                // $('#exampleModal').modal('hide')
-                console.log(category);
-                this.onSuccess.emit(category);
-                this.getCategories();
-                this.modal.hide();
-            }, error => this.onError.emit(error));
+    showModalInsert() {
+        this.categoryNewModal.showModal();
     }
 
     onInsertSuccess($event: any) {
         console.log($event);
         this.getCategories();
+    }
+
+    onInsertError($event: HttpErrorResponse) {
+        console.log($event);
     }
 
 }

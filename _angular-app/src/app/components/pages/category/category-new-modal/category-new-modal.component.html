@@ -1,3 +1,21 @@
-<p>
-  category-new-modal works!
-</p>
+<form (submit)="submit()">
+  <modal (onHide)="hideModal($event)">
+      <h1 modal-title>Nova Categoria</h1>
+      <div modal-body>
+          <div class="form-group">
+              <label for="name">Nome</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Informe o nome" required
+                  [(ngModel)]="category.name">
+          </div>
+          <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="is_active" name="is_active" required
+                  [(ngModel)]="category.active">
+              <label for="is_active">Ativo?</label> 
+          </div>
+      </div>
+      <div modal-footer>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="submit" class="btn btn-primary">Incluir</button>
+      </div>
+  </modal>
+</form>
