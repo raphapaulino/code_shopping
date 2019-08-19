@@ -26,9 +26,9 @@ export interface ProductCategory {
 export interface User {
     id?: number;
     name: string;
-    email?: string;
+    email: string;
     password?: string;
-    password_confirmation?: string;
+    // password_confirmation?: string; // facultativo
     readonly created_at?: { date: string };
     readonly updated_at?: { date: string };
 }
