@@ -2,26 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
-import { Product } from 'src/app/model';
-import { HttpResource, SearchParams, SearchParamsBuilder } from './http-resource';
+import { User } from 'src/app/model';
+import { SearchParams, SearchParamsBuilder } from './http-resource';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductHttpService implements HttpResource<Product> {
+export class UserHttpService {
 
-    private baseUrl = 'http://localhost:8000/api/products';
+    private baseUrl = 'http://localhost:8000/api/users';
 
     constructor(private httpClient: HttpClient) { }
 
-    list(searchParams: SearchParams): Observable<{ data: Array<Product>, meta: any }> {
+    list(searchParams: SearchParams): Observable<{ data: Array<User>, meta: any }> {
         const token = window.localStorage.getItem('token');
         const sParams = new SearchParamsBuilder(searchParams).makeObject(); 
         const params = new HttpParams({
             fromObject: (<any>sParams)
         });
         return this.httpClient
-            .get<{ data: Array<Product>, meta: any }>
+            .get<{ data: Array<User>, meta: any }>
             (this.baseUrl, {
                 params,
                 headers: {
@@ -30,10 +30,10 @@ export class ProductHttpService implements HttpResource<Product> {
             });
     }
 
-    get(id: number): Observable<Product> {
+    get(id: number): Observable<User> {
         const token = window.localStorage.getItem('token');
         return this.httpClient
-            .get<{ data: Product }>
+            .get<{ data: User }>
             (`${this.baseUrl}/${id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -44,10 +44,10 @@ export class ProductHttpService implements HttpResource<Product> {
             ) // associado ao conceito de pipeline (segmentação de tarefas);
     }
 
-    create(data: Product): Observable<Product> {
+    create(data: User): Observable<User> {
         const token = window.localStorage.getItem('token');
         return this.httpClient
-            .post<{ data: Product }>
+            .post<{ data: User }>
             (this.baseUrl, data, {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -58,10 +58,10 @@ export class ProductHttpService implements HttpResource<Product> {
             )
     }
 
-    update(id: number, data: Product): Observable<Product> {
+    update(id: number, data: User): Observable<User> {
         const token = window.localStorage.getItem('token');
         return this.httpClient
-            .put<{ data: Product }>
+            .put<{ data: User }>
             (`${this.baseUrl}/${id}`, data, {
                 headers: {
                     'Authorization': `Bearer ${token}`

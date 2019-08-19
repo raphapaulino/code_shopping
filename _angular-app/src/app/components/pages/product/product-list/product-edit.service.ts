@@ -24,12 +24,12 @@ export class ProductEditService {
 
     onEditSuccess($event: any) {
         console.log($event);
-        this.notifyMessage.success('Categoria editada com sucesso.');
-        this._productListComponent.getCategories();
+        this.notifyMessage.success('Produto editado com sucesso.');
+        this._productListComponent.getProducts();
     }
 
     onEditError($event: HttpErrorResponse) {
         console.log($event);
-        this.notifyMessage.error('Erro ao tentar registrar a nova Categoria.');
+        this.notifyMessage.error('Erro ao tentar registrar o novo Produto.');
     }
 }

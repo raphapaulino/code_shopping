@@ -41,7 +41,6 @@ export class ProductEditModalComponent implements OnInit {
     }
 
     submit() {
-        const token = window.localStorage.getItem('token');
         this.productHttp
         .update(this._productId, this.product)
             .subscribe((product) => {

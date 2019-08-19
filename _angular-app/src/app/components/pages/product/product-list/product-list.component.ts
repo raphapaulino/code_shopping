@@ -44,10 +44,10 @@ export class ProductListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getCategories();
+        this.getProducts();
     }
 
-    getCategories() {
+    getProducts() {
         this.productHttp.list({page: this.pagination.page})
             .subscribe(response => {
                 this.products = response.data;
@@ -58,7 +58,7 @@ export class ProductListComponent implements OnInit {
 
     pageChanged(page) {
         this.pagination.page = page;
-        this.getCategories();
+        this.getProducts();
     }
 
 }

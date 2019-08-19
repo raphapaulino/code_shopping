@@ -22,3 +22,13 @@ export interface ProductCategory {
     product: Product;
     categories: Category[] // ou Array<Category> antiga notação
 }
+
+export interface User {
+    id?: number;
+    name: string;
+    email?: string;
+    password?: string;
+    password_confirmation?: string;
+    readonly created_at?: { date: string };
+    readonly updated_at?: { date: string };
+}

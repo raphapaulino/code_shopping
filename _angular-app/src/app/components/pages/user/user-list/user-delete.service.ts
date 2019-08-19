@@ -1,30 +1,32 @@
 import { Injectable } from "@angular/core"
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotifyMessageService } from 'src/app/services/notify-message.service';
-import { ProductListComponent } from './product-list.component';
+import { UserListComponent } from './user-list.component';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ProductDeleteService {
+export class UserDeleteService {
 
-    private _productListComponent: ProductListComponent;
+    private _userListComponent: UserListComponent;
 
     constructor(private notifyMessage: NotifyMessageService) {
     }
 
-    set productListComponent(value: ProductListComponent) {
-        this._productListComponent = value;
+    set userListComponent(value: UserListComponent) {
+        this._userListComponent = value;
     }
 
-    showModalDelete(productId: number) {
-        this._productListComponent.productId = productId;
-        this._productListComponent.productDeleteModal.showModal();
+    showModalDelete(userId: number) {
+        this._userListComponent.userId = userId;
+        console.log(this._userListComponent);
+        console.log(this._userListComponent.userDeleteModal);
+        this._userListComponent.userDeleteModal.showModal();
     }
 
     onDeleteSuccess($event: any) {
         console.log($event);
-        this._productListComponent.getProducts();
+        this._userListComponent.getUsers();
     }
 
     onDeleteError($event: HttpErrorResponse) {
