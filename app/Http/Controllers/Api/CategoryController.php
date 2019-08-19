@@ -15,10 +15,11 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // dd('dentro do controller');
-        return CategoryResource::collection(Category::orderBy('id', 'desc')->paginate(5));
+        $categories = $request->has('all') ? Category::orderBy('id', 'desc')->get() : Category::orderBy('id', 'desc')->paginate(5);
+        return CategoryResource::collection($categories);
     }
 
     /**

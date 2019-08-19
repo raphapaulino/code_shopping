@@ -33,7 +33,7 @@ class ProductCategoryController extends Controller
         $changed = $product->categories()->sync($request->categories);
         $categoriesAttachedIds = $changed['attached'];
         /** @var Collection $categories */
-        $categories = Category::whereIn('id', $categoriesAttachedIds)->get();
+        $categories = Category::whereIn('id', $categoriesAttachedIds)->get(); // WHERE id IN (1,3)
         //return $categories;
         return $categories->count() ? response()->json(new ProductCategoryResource($product), 201) : [];
     }

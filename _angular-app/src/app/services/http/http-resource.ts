@@ -1,9 +1,31 @@
 import { Observable } from 'rxjs/internal/Observable';
 import { Product } from 'src/app/model';
 
+export interface SearchParams {
+    page?: number;
+    all?: any;
+}
+
+export class SearchParamsBuilder {
+    constructor(private searchParams: SearchParams) {
+
+    }
+
+    makeObject(): SearchParams {
+        const sParams: any = {
+            page: this.searchParams.page + "", // macete para transformar em string
+        };
+        if (this.searchParams.all) {
+            sParams.all = '1';
+            delete sParams.page; // para não precisar passar a paginação
+        }
+        return sParams;
+    }
+}
+
 export interface HttpResource<T> {
 
-    list(page: number): Observable<{ data: Array<T>, meta: any }>;
+    list(searchParams: SearchParams): Observable<{ data: Array<T>, meta: any }>;
 
     get(id: number): Observable<T>;
 
