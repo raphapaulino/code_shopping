@@ -18,13 +18,15 @@ class CorsMiddleware
         // dd($request->isMethod('OPTIONS'));
         // if ($request->is('api/*') && $request->method() == 'OPTIONS') {
         if ($request->is('api/*')) {
-            // header('Access-Control-Allow-Origin: http://localhost:4200');
-            // header('Access-Control-Allow-Headers: Content-type, Authorization');
-            // header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE');
-            return $next($request)
-                ->header('Access-Control-Allow-Origin', 'http://localhost:4200')
-                ->header('Access-Control-Allow-Headers', 'Content-type, Authorization')
-                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+
+            header('Access-Control-Allow-Origin: http://localhost:4201');
+            header('Access-Control-Allow-Headers: Content-type, Authorization');
+            header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE');
+
+            return $next($request);
+                // ->header('Access-Control-Allow-Origin', 'http://localhost:4201')
+                // ->header('Access-Control-Allow-Headers', 'Content-type, Authorization')
+                // ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
         }
         return $next($request);
     }
