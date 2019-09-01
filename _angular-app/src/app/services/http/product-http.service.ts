@@ -10,7 +10,7 @@ import { HttpResource, SearchParams, SearchParamsBuilder } from './http-resource
 })
 export class ProductHttpService implements HttpResource<Product> {
 
-    private baseUrl = 'http://localhost:8000/api/products';
+    private baseUrl = 'http://localhost:8081/api/products';
 
     constructor(private httpClient: HttpClient) { }
 
@@ -22,23 +22,14 @@ export class ProductHttpService implements HttpResource<Product> {
         });
         return this.httpClient
             .get<{ data: Array<Product>, meta: any }>
-            (this.baseUrl, {
-                params,
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            (this.baseUrl, {params});
     }
 
     get(id: number): Observable<Product> {
         const token = window.localStorage.getItem('token');
         return this.httpClient
             .get<{ data: Product }>
-            (`${this.baseUrl}/${id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+            (`${this.baseUrl}/${id}`)
             .pipe(
                 map( response => response.data )
             ) // associado ao conceito de pipeline (segmentação de tarefas);
@@ -48,11 +39,7 @@ export class ProductHttpService implements HttpResource<Product> {
         const token = window.localStorage.getItem('token');
         return this.httpClient
             .post<{ data: Product }>
-            (this.baseUrl, data, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+            (this.baseUrl, data)
             .pipe(
                 map( response => response.data )
             )
@@ -62,11 +49,7 @@ export class ProductHttpService implements HttpResource<Product> {
         const token = window.localStorage.getItem('token');
         return this.httpClient
             .put<{ data: Product }>
-            (`${this.baseUrl}/${id}`, data, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+            (`${this.baseUrl}/${id}`, data)
             .pipe(
                 map( response => response.data )
             )
@@ -76,10 +59,6 @@ export class ProductHttpService implements HttpResource<Product> {
         const token = window.localStorage.getItem('token');
         return this.httpClient
             .delete
-            (`${this.baseUrl}/${id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
+            (`${this.baseUrl}/${id}`)
     }
 }
