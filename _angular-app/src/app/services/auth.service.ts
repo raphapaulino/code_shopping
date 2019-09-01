@@ -34,7 +34,7 @@ export class AuthService {
 
     setToken(token: string) {
       this.setUserFromToken(token);
-      window.localStorage.setItem(TOKEN_KEY, token);
+      token ? window.localStorage.setItem(TOKEN_KEY, token) : window.localStorage.removeItem(TOKEN_KEY);
     }
 
     private setUserFromToken(token: string) {
@@ -48,5 +48,21 @@ export class AuthService {
 
     getToken(): string | null {
       return window.localStorage.getItem(TOKEN_KEY);
+    }
+
+    isAuth(): boolean {
+      const token = this.getToken();
+      return !new JwtHelperService().isTokenExpired(token);
+    }
+
+    logout() {
+      return this.httpClient
+        .post<{token: string}>(`${this.baseUrl}/logout`, {})
+        .pipe(
+          tap(() => {
+              this.setToken(null)
+            }
+          )
+        );
     }
 }
