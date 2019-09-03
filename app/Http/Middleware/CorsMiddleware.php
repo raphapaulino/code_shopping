@@ -22,6 +22,7 @@ class CorsMiddleware
             header('Access-Control-Allow-Origin: http://localhost:4201');
             header('Access-Control-Allow-Headers: Content-type, Authorization');
             header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE');
+            header('Access-Control-Expose-Headers: Authorization');
 
             return $next($request);
                 // ->header('Access-Control-Allow-Origin', 'http://localhost:4201')

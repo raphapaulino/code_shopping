@@ -6,7 +6,6 @@ import { LoginComponent } from './components/pages/login/login.component';
 import { CategoryListComponent } from './components/pages/category/category-list/category-list.component';
 
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalComponent } from './components/bootstrap/modal/modal.component';
 import { CategoryNewModalComponent } from './components/pages/category/category-new-modal/category-new-modal.component';
@@ -27,39 +26,7 @@ import { UserDeleteModalComponent } from './components/pages/user/user-delete-mo
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt'
 import { AuthService } from './services/auth.service';
 import { NavbarComponent } from './components/bootstrap/navbar/navbar.component';
-import { AuthGuard } from './guards/auth.guard';
-
-const routes: Routes = [
-	{
-    path: 'login', 
-    component: LoginComponent
-	},
-	{
-    path: 'categories/list', 
-    component: CategoryListComponent,
-    canActivate: [AuthGuard]
-	},
-	{
-    path: 'products/:product/categories/list', 
-    component: ProductCategoryListComponent,
-    canActivate: [AuthGuard]
-  },
-	{
-    path: 'products/list', 
-    component: ProductListComponent,
-    canActivate: [AuthGuard]
-	},
-	{
-    path: 'users/list', 
-    component: UserListComponent,
-    canActivate: [AuthGuard]
-	},
-	{
-		path: '',
-		redirectTo: '/login',
-		pathMatch: 'full'
-	}
-]
+import { AppRoutingModule } from './app-routing.module';
 
 function jwtFactory(authService: AuthService) {
   return {
@@ -99,7 +66,7 @@ function jwtFactory(authService: AuthService) {
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes, /*{enableTracing: true}*/),
+    AppRoutingModule,
     NgxPaginationModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
