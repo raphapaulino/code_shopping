@@ -4,18 +4,18 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/model';
 import { SearchParams, SearchParamsBuilder } from './http-resource';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserHttpService {
 
-    private baseUrl = 'http://localhost:8081/api/users';
+    private baseUrl = `${environment.api.url}/users`;
 
     constructor(private httpClient: HttpClient) { }
 
     list(searchParams: SearchParams): Observable<{ data: Array<User>, meta: any }> {
-        const token = window.localStorage.getItem('token');
         const sParams = new SearchParamsBuilder(searchParams).makeObject(); 
         const params = new HttpParams({
             fromObject: (<any>sParams)
@@ -26,7 +26,6 @@ export class UserHttpService {
     }
 
     get(id: number): Observable<User> {
-        const token = window.localStorage.getItem('token');
         return this.httpClient
             .get<{ data: User }>
             (`${this.baseUrl}/${id}`)
@@ -36,7 +35,6 @@ export class UserHttpService {
     }
 
     create(data: User): Observable<User> {
-        const token = window.localStorage.getItem('token');
         return this.httpClient
             .post<{ data: User }>
             (this.baseUrl, data)
@@ -46,7 +44,6 @@ export class UserHttpService {
     }
 
     update(id: number, data: User): Observable<User> {
-        const token = window.localStorage.getItem('token');
         return this.httpClient
             .put<{ data: User }>
             (`${this.baseUrl}/${id}`, data)
@@ -56,7 +53,6 @@ export class UserHttpService {
     }
 
     destroy(id: number): Observable<any> {
-        const token = window.localStorage.getItem('token');
         return this.httpClient
             .delete
             (`${this.baseUrl}/${id}`)
