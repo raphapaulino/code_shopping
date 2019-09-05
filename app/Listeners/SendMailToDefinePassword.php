@@ -29,5 +29,6 @@ class SendMailToDefinePassword
         $token = \Password::broker()->createToken($user);
 
         $user->sendPasswordResetNotification($token);
+        // $user->notify(new MyNotification($token));
     }
 }

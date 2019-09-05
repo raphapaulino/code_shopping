@@ -41,7 +41,7 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::bind('product', function ($value) {
             $query = Product::query();
-            $request = app(Request::class);
+            $request = app(Request::class); // devolve a classe que está no container do Laravel
             $query = $this->onlyTrashedIfRequested($request, $query);
             $collection = $query->whereId($value)->orWhere('slug', $value)->get();
             return $collection->first();
