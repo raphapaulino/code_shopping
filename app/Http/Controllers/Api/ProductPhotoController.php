@@ -40,7 +40,7 @@ class ProductPhotoController extends Controller
      * @param  \CodeShopping\Models\ProductPhoto  $photo
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product, ProductPhoto $photo)
+    public function show(Product $product, ProductPhoto $photo) // was added $photo because resource
     {
         $this->assertProductPhoto($product, $photo);
         return new ProductPhotoResource($photo);
@@ -78,7 +78,7 @@ class ProductPhotoController extends Controller
     private function assertProductPhoto(Product $product, ProductPhoto $photo)
     {
         if ($photo->product_id != $product->id) {
-            abort(404, 'Product Error!');
+            abort(404, 'Product Photo Error!');
         }
     }
 }

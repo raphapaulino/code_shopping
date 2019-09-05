@@ -37,12 +37,15 @@ class ProductPhotoRequest extends FormRequest
     private function rulesCreate()
     {
         return [
-            'photos' => 'required|image|max:' . (3 * 1024)
+            'photos' => 'required|array',
+            'photos.*' => 'required|image|max:' . (3 * 1024)
         ];
     }
 
     private function rulesUpdate()
     {
-
+        return [
+            'photo' => 'required|image|max:' . (3 * 1024)
+        ];
     }
 }

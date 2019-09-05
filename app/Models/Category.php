@@ -27,6 +27,6 @@ class Category extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class); // ->withTrashed() evitar devido ao tipo de relacionamento com produtos
+        return $this->belongsToMany(Product::class); // ->withTrashed() evitar devido ao sentido do relacionamento com produtos
     }
 }

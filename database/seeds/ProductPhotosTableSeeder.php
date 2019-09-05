@@ -21,10 +21,9 @@ class ProductPhotosTableSeeder extends Seeder
     public function run()
     {
         $this->allFakerPhotos = $this->getFakerPhotos();
-        /** @var Collection $products */
         $products = Product::all();
         $this->deleteAllPhotosInProductsPath();
-        $self = $this;
+        $self = $this; // '$this' is class reference, not function reference
         $products->each(function ($product) use ($self) {
             $self->createPhotoDir($product);
             $self->createPhotosModels($product);
@@ -40,7 +39,7 @@ class ProductPhotosTableSeeder extends Seeder
     private function deleteAllPhotosInProductsPath()
     {
         $path = ProductPhoto::PRODUCTS_PATH;
-        \File::deleteDirectory(storage_path($path), true); // true preserve directory
+        \File::deleteDirectory(storage_path($path), true); // true preserves directory
     }
 
     private function createPhotoDir(Product $product)
@@ -80,7 +79,7 @@ class ProductPhotosTableSeeder extends Seeder
             str_random(16) . '.' . $photoFile->getExtension()
         );
         ProductPhoto::uploadFiles($productId, [$uploadedFile]);
-        // upload da photo
+        // upload da photo | hashName() returns file name
         return $uploadedFile->hashName();
     }
 }

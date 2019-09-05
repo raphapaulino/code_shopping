@@ -29,7 +29,7 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function () {
     Route::group(
         [
             'middleware' => [
-                'auth:api', 'jwt.refresh'//, 'cors'
+                // 'auth:api', 'jwt.refresh'//, 'cors'
             ]
         ], function () {
                 

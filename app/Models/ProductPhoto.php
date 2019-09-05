@@ -26,7 +26,12 @@ class ProductPhoto extends Model
 
     public static function createWithPhotosFiles(int $productId, array $files): Collection
     {
-        /** desabilitar o commit padrão do MySql (autocommit) - pode ser desabilitado */
+        /** 
+         * o commit padrão do MySql (autocommit padrão) pode ser desabilitado 
+         * autocommit é implícito, com o \DB::beginTransaction() ... \DB::commit(); deixamos explícito
+         * 
+         * Dica: Dica: Para edição da imagem não use o método PUT, pois o PHP não suporta envio de arquivos com método PUT, use o POST.
+         * */
         try {
 
             self::uploadFiles($productId, $files);
@@ -64,10 +69,9 @@ class ProductPhoto extends Model
             self::uploadFiles($this->product_id, [$file]);
             \DB::beginTransaction();
             // remove old file
-            $this->deletePhoto($this->file_name);
+            $this->deletePhoto($this->file_name); // TODO: gerar uma cópia temporária da imagem com \File::copy(sys_get_temp_dir()) e salva o caminho para poder recuperar depois
             // update old file name
             $this->file_name = $file->hashName();
-            // \File::copy() ...
             $this->save();
             \DB::commit();
             // 2 deram certo e o 3 nao
@@ -133,7 +137,6 @@ class ProductPhoto extends Model
         $photos = [];
         /** @var UploadedFile $file */
         foreach ($files as $file) {
-            # code...
             $photos[] = self::create([
                 'file_name' => $file->hashName(),
                 'product_id' => $productId
