@@ -26,13 +26,8 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function () {
 
     Route::name('logout')->post('logout', 'AuthController@logout');
 
-    Route::group(
-        [
-            'middleware' => [
-                // 'auth:api', 'jwt.refresh'//, 'cors'
-            ]
-        ], function () {
-                
+    Route::group(['middleware' => ['auth:api', 'jwt.refresh'/*, 'cors' */]], function () {
+                    
             Route::name('me')->get('me', 'AuthController@me');
 
             // Products
@@ -49,6 +44,7 @@ Route::group(['namespace' => 'Api', 'as' => 'api.'], function () {
 
             // users
             Route::resource('users', 'UserController', ['except' => ['create', 'edit']]);
-    });
+        }
+    );
 });
 
